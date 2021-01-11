@@ -44,7 +44,7 @@ class CmdPalletController < ApplicationController
 
       skill_trs = skill_tbody.search('tr')
       skill_trs.each do |skill_tr|
-        skill_hash["#{skill_tr.at('th').content}"] = skill_tr.search('td').last.content
+        skill_hash["#{skill_tr.at('th').content}"] = skill_tr.search('td').last.content if skill_tr.search('td').last.content.to_i >= 20
       end
     end
     skill_hash
