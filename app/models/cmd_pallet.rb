@@ -1,0 +1,2 @@
+class CmdPallet < ApplicationRecord
+end

@@ -1,4 +1,7 @@
-<h1>TRPGキャラクターシートアーカイブスからコマンドパレット作成</h1>
+<h1>コマンドパレット作成</h1>
 
-<%= @status %>
-<%= @skill %>
+<%= form_for(@ccfolia_url, url: cmd_pallet_path, method: :post) do %>
+  <%= label_tag(:ccfolia_url, 'ccfolia url:') %>
+  <%= text_field_tag(:ccfolia_url) %>
+  <%= submit_tag('送信') %>
+<% end %>

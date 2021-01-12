@@ -3,12 +3,14 @@ class CmdPalletController < ApplicationController
   end
 
   def new
-    status, skill = get_character_info('https://chara.revinx.net/coc_view/159990')
-    @status = make_status_hash(status)
-    @skill = make_skill_hash(skill)
+    @ccfolia_url = CmdPallet.new
   end
 
-  def create
+  def show
+    # https://chara.revinx.net/coc_view/159990
+    status, skill = get_character_info(params[:ccfolia_url])
+    @status = make_status_hash(status)
+    @skill = make_skill_hash(skill)
   end
 
   def get_character_info(link)
@@ -49,6 +51,84 @@ class CmdPalletController < ApplicationController
     end
     skill_hash
   end
+
+  def make_skill_pallet(skill_hash)
+
+  end
+
+  def make_pallet(status_hash, skill_pallet)
+    cmd_pallet = <<EOS
+    【能力値×ｎ】---
+    CCB<=({STR}*5) 【STR】
+    CCB<=({CON}*5) 【CON】
+    CCB<=({POW}*5) 【POW】
+    CCB<=({DEX}*5) 【DEX】
+    CCB<=({APP}*5) 【APP】
+    CCB<=({SIZ}*5) 【SIZ】
+    CCB<=({INT}*5) 【INT】
+    CCB<=({EDU}*5) 【EDU】
+    
+    CCB<={SAN値} 【SANチェック】
+    CCB<= #{status['アイデア']}【アイデア】
+    CCB<= #{status['幸運']}【幸運】
+    CCB<= #{status['知識']}【知識】
+    
+    【技能値】-------
+    #{skill_pallet}
+    
+    ////////////
+    //STR = #{status['STR']}
+    //CON = #{status['CON']}
+    //POW = #{status['POW']}
+    //DEX = #{status['DEX']}
+    //APP = #{status['APP']}
+    //SIZ = #{status['SIZ']}
+    //INT = #{status['INT']}
+    //EDU = #{status['EDU']}
+    //db = #{status['db']}
+EOS
+  end
 end
 
 # CmdPalletController.new.get_character_info
+
+# 【能力値×ｎ】---
+# CCB<=({STR}*5) 【STR】
+# CCB<=({CON}*5) 【CON】
+# CCB<=({POW}*5) 【POW】
+# CCB<=({DEX}*5) 【DEX】
+# CCB<=({APP}*5) 【APP】
+# CCB<=({SIZ}*5) 【SIZ】
+# CCB<=({INT}*5) 【INT】
+# CCB<=({EDU}*5) 【EDU】
+
+# CCB<={SAN値} 【SANチェック】
+# CCB<= 【アイデア】
+# CCB<= 【幸運】
+# CCB<= 【知識】
+
+# 【技能値】-------
+# CCB<=55【キック】
+# CCB<=52【回避】
+# CCB<=50【応急手当】
+# CCB<=50【隠れる】
+# CCB<=50【写真術】
+# CCB<=60【運転(自動車)】
+# CCB<=50【忍び歩き】
+# CCB<=70【水泳】
+# CCB<=65【目星】
+# CCB<=45【聞き耳】
+# CCB<=50【信用】
+# CCB<=45【説得】
+# CCB<=71【生物学】
+
+# ////////////
+# //STR = 
+# //CON = 
+# //POW = 
+# //DEX = 
+# //APP = 
+# //SIZ = 
+# //INT = 
+# //EDU = 
+# //db = +
