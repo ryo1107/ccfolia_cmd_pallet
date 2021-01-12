@@ -9,8 +9,10 @@ class CmdPalletController < ApplicationController
   def show
     # https://chara.revinx.net/coc_view/159990
     status, skill = get_character_info(params[:ccfolia_url])
-    @status = make_status_hash(status)
-    @skill = make_skill_hash(skill)
+    status_hash = make_status_hash(status)
+    skill_hash = make_skill_hash(skill)
+
+    @cmd_pallet = make_pallet(status_hash, make_skill_pallet(skill_hash))
   end
 
   def get_character_info(link)
@@ -46,15 +48,18 @@ class CmdPalletController < ApplicationController
 
       skill_trs = skill_tbody.search('tr')
       skill_trs.each do |skill_tr|
-        skill_hash["#{skill_tr.at('th').content}"] = skill_tr.search('td').last.content if skill_tr.search('td').last.content.to_i >= 20
+        skill_hash["#{skill_tr.at('th').content}"] = skill_tr.search('td').last.content if skill_tr.search('td').last.content.to_i >= 0
       end
     end
     skill_hash
   end
 
   def make_skill_pallet(skill_hash)
+    skill_array = []
     skill_hash.each do |name, num|
+      skill_array.push("CCB<=#{num}【#{name}】")
     end
+    skill_pallet = skill_array.join("\n")
   end
 
   def make_pallet(status_hash, skill_pallet)
@@ -70,23 +75,23 @@ class CmdPalletController < ApplicationController
     CCB<=({EDU}*5) 【EDU】
     
     CCB<={SAN値} 【SANチェック】
-    CCB<= #{status['アイデア']}【アイデア】
-    CCB<= #{status['幸運']}【幸運】
-    CCB<= #{status['知識']}【知識】
+    CCB<= #{status_hash['アイデア']}【アイデア】
+    CCB<= #{status_hash['幸運']}【幸運】
+    CCB<= #{status_hash['知識']}【知識】
     
     【技能値】-------
     #{skill_pallet}
     
     ////////////
-    //STR = #{status['STR']}
-    //CON = #{status['CON']}
-    //POW = #{status['POW']}
-    //DEX = #{status['DEX']}
-    //APP = #{status['APP']}
-    //SIZ = #{status['SIZ']}
-    //INT = #{status['INT']}
-    //EDU = #{status['EDU']}
-    //db = #{status['db']}
+    //STR = #{status_hash['STR']}
+    //CON = #{status_hash['CON']}
+    //POW = #{status_hash['POW']}
+    //DEX = #{status_hash['DEX']}
+    //APP = #{status_hash['APP']}
+    //SIZ = #{status_hash['SIZ']}
+    //INT = #{status_hash['INT']}
+    //EDU = #{status_hash['EDU']}
+    //db = #{status_hash['db']}
 EOS
   end
 end
