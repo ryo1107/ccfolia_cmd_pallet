@@ -53,7 +53,8 @@ class CmdPalletController < ApplicationController
   end
 
   def make_skill_pallet(skill_hash)
-
+    skill_hash.each do |name, num|
+    end
   end
 
   def make_pallet(status_hash, skill_pallet)
