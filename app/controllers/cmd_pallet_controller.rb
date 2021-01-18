@@ -57,7 +57,7 @@ class CmdPalletController < ApplicationController
   def make_skill_pallet(skill_hash)
     skill_array = []
     skill_hash.each do |name, num|
-      skill_array.push("CCB<=#{num}【#{name}】")
+      skill_array.push("CCB<=#{num} 【#{name}】")
     end
     skill_pallet = skill_array.join("\n")
   end
