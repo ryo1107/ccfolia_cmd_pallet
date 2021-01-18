@@ -74,10 +74,10 @@ class CmdPalletController < ApplicationController
     CCB<=({INT}*5) 【INT】
     CCB<=({EDU}*5) 【EDU】
     
-    CCB<={SAN値} 【SANチェック】
-    CCB<= #{status_hash['アイデア']}【アイデア】
-    CCB<= #{status_hash['幸運']}【幸運】
-    CCB<= #{status_hash['知識']}【知識】
+    CCB<={SAN} 【SANチェック】
+    CCB<=#{status_hash['アイデア']}【アイデア】
+    CCB<=#{status_hash['幸運']}【幸運】
+    CCB<=#{status_hash['知識']}【知識】
     
     【技能値】-------
     #{skill_pallet}
